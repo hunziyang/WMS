@@ -1,0 +1,21 @@
+server:
+  port: 8888
+spring:
+  config:
+    import: core.yml
+  datasource:
+    url: jdbc:mysql://192.168.226.128:3306/wms?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
+    username: root
+    password: 123456
+  redis:
+    host: 192.168.226.128
+    port: 6379
+    password: 123456
+    database: 0
+  elasticsearch:
+    rest:
+      uris: http://192.168.226.128:9200
+swagger:
+  application-name: wms
+  application-version: 1.0
+  application-description: 仓储系统
