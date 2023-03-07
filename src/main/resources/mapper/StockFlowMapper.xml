@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yang.portal.wms.mapper.StockFlowMapper">
+
+    <resultMap type="com.yang.portal.wms.entity.StockFlow" id="StockFlowMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="productId" column="PRODUCT_ID" jdbcType="INTEGER"/>
+        <result property="amount" column="AMOUNT" jdbcType="INTEGER"/>
+        <result property="number" column="NUMBER" jdbcType="VARCHAR"/>
+        <result property="description" column="DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="isDelete" column="IS_DELETE" jdbcType="INTEGER"/>
+        <result property="revision" column="REVISION" jdbcType="INTEGER"/>
+        <result property="createdId" column="CREATED_ID" jdbcType="INTEGER"/>
+        <result property="createdBy" column="CREATED_BY" jdbcType="VARCHAR"/>
+        <result property="createdTime" column="CREATED_TIME" jdbcType="TIMESTAMP"/>
+        <result property="updatedId" column="UPDATED_ID" jdbcType="VARCHAR"/>
+        <result property="updatedBy" column="UPDATED_BY" jdbcType="VARCHAR"/>
+        <result property="updatedTime" column="UPDATED_TIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="getStockFlow" resultMap="StockFlowMap">
+        SELECT <include refid="baseField"/> FROM STOCK_FLOW stockFlow,(<include refid="baseSQL"/>) b
+        WHERE stockFlow.ID = b.ID
+    </select>
+
+    <sql id="baseSQL">
+        SELECT ID FROM STOCK_FLOW
+        <where>
+            IS_DELETE = false
+            <if test="query.productId != null">
+                AND PRODUCT_ID = #{query.productId}
+            </if>
+            <if test="query.number != null and query.number != ''">
+                AND NUMBER LIKE CONCAT('%',#{query.number},'%')
+            </if>
+            <if test="query.createBy != null and query.createBy != ''">
+                AND CREATED_BY LIKE CONCAT('%',#{query.createBy},'%')
+            </if>
+            <if test="query.createAt != null and query.createAt.startDate != null">
+                AND CREATED_TIME &gt;= #{query.createAt.startDate}
+            </if>
+            <if test="query.createAt != null and query.createAt.endDate != null">
+                AND CREATED_TIME &lt;= #{query.createAt.endDate}
+            </if>
+        </where>
+        <choose>
+            <when test="query.orderByCreateAtASC !=null and query.orderByCreateAtASC">
+                ORDER BY CREATED_TIME ASC
+            </when>
+            <when test="query.orderByCreateAtASC !=null and !query.orderByCreateAtASC">
+                ORDER BY CREATED_TIME DESC
+            </when>
+            <otherwise>
+                ORDER BY ID DESC
+            </otherwise>
+        </choose>
+        LIMIT #{start} ,#{end}
+    </sql>
+    
+    <sql id="baseField">
+        stockFlow.ID,PRODUCT_ID,AMOUNT,NUMBER,DESCRIPTION,CREATED_ID,CREATED_BY,CREATED_TIME,UPDATED_ID,UPDATED_BY,UPDATED_TIME
+    </sql>
+
+</mapper>
