@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yang.portal.wms.mapper.SkuMapper">
+
+    <resultMap type="com.yang.portal.wms.entity.Sku" id="SkuMap">
+        <id property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="productId" column="PRODUCT_ID" jdbcType="INTEGER"/>
+        <result property="sku" column="SKU" jdbcType="VARCHAR"/>
+        <result property="value" column="VALUE" jdbcType="VARCHAR"/>
+        <result property="uniqueId" column="UNIQUE_ID" jdbcType="INTEGER"/>
+        <result property="description" column="DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="isDelete" column="IS_DELETE" jdbcType="INTEGER"/>
+        <result property="revision" column="REVISION" jdbcType="INTEGER"/>
+        <result property="createdId" column="CREATED_ID" jdbcType="INTEGER"/>
+        <result property="createdBy" column="CREATED_BY" jdbcType="VARCHAR"/>
+        <result property="createdTime" column="CREATED_TIME" jdbcType="TIMESTAMP"/>
+        <result property="updatedId" column="UPDATED_ID" jdbcType="VARCHAR"/>
+        <result property="updatedBy" column="UPDATED_BY" jdbcType="VARCHAR"/>
+        <result property="updatedTime" column="UPDATED_TIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="getSkuByProductId" resultMap="SkuMap">
+        SELECT <include refid="skuColumn"/> FROM SKU WHERE PRODUCT_ID = #{productId}
+    </select>
+
+    <sql id="skuColumn">
+        ID,PRODUCT_ID,SKU,VALUE,UNIQUE_ID,DESCRIPTION,IS_DELETE,REVISION,CREATED_ID,CREATED_BY,CREATED_TIME,UPDATED_ID,UPDATED_BY,UPDATED_TIME
+    </sql>
+</mapper>
+

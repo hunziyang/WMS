@@ -12,10 +12,6 @@ spring:
     port: 6379
     password: 123456
     database: 0
-  elasticsearch:
-    rest:
-      uris: http://192.168.226.128:9200
 swagger:
   application-name: wms
-  application-version: 1.0
   application-description: 仓储系统
